@@ -21,14 +21,14 @@ public class ClockDisplay
     
     /**
      * Constructor for ClockDisplay objects. This constructor 
-     * creates a new clock set at 00:00.
+     * creates a new clock set at 12:00:00.
      */
     public ClockDisplay()
     {
-        hours = new NumberDisplay(24);
-        minutes = new NumberDisplay(60);
-        seconds = new NumberDisplay(60);
-        updateDisplay();
+        hours = new NumberDisplay(13, 1);
+        minutes = new NumberDisplay(60, 0);
+        seconds = new NumberDisplay(60, 0);
+        setTime(12, 0, 0);
     }
 
     /**
@@ -38,9 +38,9 @@ public class ClockDisplay
      */
     public ClockDisplay(int hour, int minute, int second)
     {
-        hours = new NumberDisplay(24);
-        minutes = new NumberDisplay(60);
-        seconds = new NumberDisplay(60);
+        hours = new NumberDisplay(13, 1);
+        minutes = new NumberDisplay(60, 0);
+        seconds = new NumberDisplay(60, 0);
         setTime(hour, minute, second);
     }
 
@@ -58,6 +58,9 @@ public class ClockDisplay
         
         if(minutes.getValue() == 0 && seconds.getValue() == 0) {  // it just rolled over!
             hours.increment();
+            if(hours.getValue() == 0) {
+                hours.increment();
+            }
         }
         updateDisplay();
     }
