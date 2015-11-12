@@ -15,7 +15,7 @@ public class Clock
      */
     public Clock()
     {
-        clock = new ClockDisplay(12, 59, 50);
+        clock = new ClockDisplay(12, 00, "a.m.");
     }
     
     public void tick() 

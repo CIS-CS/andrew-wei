@@ -17,6 +17,7 @@ public class ClockDisplay
     private NumberDisplay hours;
     private NumberDisplay minutes;
     private NumberDisplay seconds;
+    private String meridiem; 
     private String displayString;    // simulates the actual display
     
     /**
@@ -28,7 +29,8 @@ public class ClockDisplay
         hours = new NumberDisplay(13, 1);
         minutes = new NumberDisplay(60, 0);
         seconds = new NumberDisplay(60, 0);
-        setTime(12, 0, 0);
+        meridiem = "a.m.";
+        setTime(12, 0, 0, "a.m.");
     }
 
     /**
@@ -36,12 +38,13 @@ public class ClockDisplay
      * creates a new clock set at the time specified by the 
      * parameters.
      */
-    public ClockDisplay(int hour, int minute, int second)
+    public ClockDisplay(int hour, int minute, int second, String ampm)
     {
         hours = new NumberDisplay(13, 1);
         minutes = new NumberDisplay(60, 0);
         seconds = new NumberDisplay(60, 0);
-        setTime(hour, minute, second);
+        meridiem = ampm;
+        setTime(hour, minute, second, ampm);
     }
 
     /**
@@ -53,13 +56,18 @@ public class ClockDisplay
         seconds.increment();
         if(seconds.getValue() == 0) {  // it just rolled over!
             minutes.increment();
-        }
-        updateDisplay();
-        
-        if(minutes.getValue() == 0 && seconds.getValue() == 0) {  // it just rolled over!
-            hours.increment();
-            if(hours.getValue() == 0) {
+            
+            if(minutes.getValue() == 0 && seconds.getValue() == 0) {  // it just rolled over!
                 hours.increment();
+                
+                if(hours.getValue() == 12 && minutes.getValue() == 0 && seconds.getValue() == 0 
+                   && meridiem == "a.m.") {
+                    meridiem = "p.m.";
+                }
+                else if(hours.getValue() == 12 && minutes.getValue() == 0 && seconds.getValue() == 0 
+                        && meridiem == "p.m.") {
+                    meridiem = "a.m.";
+                }
             }
         }
         updateDisplay();
@@ -69,11 +77,12 @@ public class ClockDisplay
      * Set the time of the display to the specified hour and
      * minute.
      */
-    public void setTime(int hour, int minute, int second)
+    public void setTime(int hour, int minute, int second, String ampm)
     {
         hours.setValue(hour);
         minutes.setValue(minute);
         seconds.setValue(second);
+        meridiem = ampm;
         updateDisplay();
     }
 
@@ -92,6 +101,7 @@ public class ClockDisplay
     {
         displayString = hours.getDisplayValue() + ":" + 
                         minutes.getDisplayValue() + ":" +
-                        seconds.getDisplayValue();
+                        seconds.getDisplayValue() + " " +
+                        meridiem;
     }
 }

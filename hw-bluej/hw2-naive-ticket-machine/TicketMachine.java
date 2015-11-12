@@ -23,9 +23,8 @@ public class TicketMachine
      * Note that the price must be greater than zero, and there
      * are no checks to ensure this.
      */
-    public TicketMachine(int cost)
-    {
-        price = cost;
+    public TicketMachine(int cost) {
+        price = cost;      
         balance = 0;
         total = 0;
     }
@@ -33,8 +32,7 @@ public class TicketMachine
     /**
      * Return the price of a ticket.
      */
-    public int getPrice()
-    {
+    public int getPrice() {
         return price;
     }
 
@@ -42,17 +40,20 @@ public class TicketMachine
      * Return the amount of money already inserted for the
      * next ticket.
      */
-    public int getBalance()
-    {
+    public int getBalance() {
         return balance;
     }
 
     /**
      * Receive an amount of money from a customer.
      */
-    public void insertMoney(int amount)
-    {
-        balance = balance + amount;
+    public boolean insertMoney(int amount) {
+        if(amount > 0) {
+            balance = balance + amount;
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -60,8 +61,7 @@ public class TicketMachine
      * Update the total collected and
      * reduce the balance to zero.
      */
-    public void printTicket()
-    {
+    public boolean printTicket() {
         if(balance >= price) {
            // Simulate the printing of a ticket.
            System.out.println("##################");
@@ -74,10 +74,15 @@ public class TicketMachine
 
            // Update the total collected with the balance.
            total = total + balance;
+           balance = balance - price;
            
-        } else if(balance < price) {
+           return true;
+        } else {
             System.out.println("Please insert " + (price - balance) + " cent(s) more\n");
+            
+            return false;
         }
+  
     }
     
     public void getChange() {
