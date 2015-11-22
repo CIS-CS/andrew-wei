@@ -41,11 +41,15 @@ public class MusicOrganizer
      * List a file from the collection.
      * @param index The index of the file to be listed.
      */
-    public void listFile(int index)
+    public boolean listFile(int index)
     {
         if(validIndex(index) == true) {
             String filename = songs.get(index);
             System.out.println(filename);
+            return true;
+        }
+        else {
+            return false;
         }
     }
     
@@ -53,10 +57,14 @@ public class MusicOrganizer
      * Remove a file from the collection.
      * @param index The index of the file to be removed.
      */
-    public void removeFile(int index)
+    public boolean removeFile(int index)
     {
         if(validIndex(index) == true) {
             songs.remove(index);
+            return true;
+        }
+        else {
+            return false;
         }
     }
     
