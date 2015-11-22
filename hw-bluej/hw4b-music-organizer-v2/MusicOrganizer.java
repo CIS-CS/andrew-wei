@@ -84,24 +84,46 @@ public class MusicOrganizer
     }
     
     public String listAllFiles() {
-        String allFiles = "";
-        
-        for(String filename : files) {
-            allFiles = allFiles + filename + "\n";
-        }
-        
-        return allFiles;
-    }
-    
-    public String listAllFiles2() {
         String posName = "";
         int position = 0;
         
         for(String filename : files) {
-            posName  = posName + position + ": " + filename + "\n";
+            posName  = posName + "\n" + position + ": " + filename;
             position++;
         }
         
-        return posName;
+        if(posName.length() > 3) {
+            return posName;
+        }
+        else {
+            return null;
+        }
+    }
+    
+    public String listMatching(String search) {
+        String matched = "";
+        boolean found = false;
+        int counter = 0;
+        
+        for(String filename : files) {
+            if(filename.contains(search)) {
+                if(counter > 0) {
+                    matched = matched + " " + filename;
+                    found = true;
+                }
+                else {
+                    matched = matched + filename;
+                    found = true;
+                    counter++;
+                }
+            }
+        }
+        
+        if(found == true) {
+            return matched;
+        }
+        else {
+            return null;
+        }
     }
 }
