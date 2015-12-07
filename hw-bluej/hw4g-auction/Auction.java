@@ -1,4 +1,4 @@
-import java.util.ArrayList;
+import java.util.*;
 
 /**
  * A simple model of an auction.
@@ -87,10 +87,14 @@ public class Auction
     public Lot getLot(int lotNumber)
     {
         if((lotNumber >= 1) && (lotNumber < nextLotNumber)) {
-            // The number seems to be reasonable.
-            Lot selectedLot = lots.get(lotNumber - 1);
-            // Include a confidence check to be sure we have the
-            // right lot.
+            Lot selectedLot = null;
+            
+            for(Lot lot : lots) {
+                if(lot.getNumber() == lotNumber) {
+                    selectedLot = lot;
+                }
+            }
+
             if(selectedLot.getNumber() != lotNumber) {
                 System.out.println("Internal error: Lot number " +
                                    selectedLot.getNumber() +
@@ -142,15 +146,21 @@ public class Auction
     public boolean removeLot(int number) {
         boolean exist = false;
         
-        for(Lot lot : lots) {
+        Iterator<Lot> iter = lots.iterator();
+        while(iter.hasNext()) {
+            Lot lot = iter.next();
+            
             if(lot.getNumber() == number) {
                 exist = true;
-            }
-            else {
-                exist = false;
+                iter.remove();
             }
         }
         
         return exist;
+    }
+    
+    public int index(int lotNumber) {
+        int index = lots.indexOf(lotNumber);
+        return index;
     }
 }

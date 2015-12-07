@@ -102,9 +102,6 @@ public class AuctionTest
         
         assertEquals(false, auction1.removeLot(0));
         assertEquals(false, auction1.removeLot(4));
-        
-        assertEquals(true, auction1.removeLot(1));
-        
         assertEquals(true, auction1.removeLot(2));
         assertEquals(true, auction1.removeLot(3));
         assertEquals(true, auction1.removeLot(1));        
@@ -113,7 +110,7 @@ public class AuctionTest
         assertEquals(0, auction1.close());
     }
 
-    /*@Test
+    @Test
     public void testGetLot()
     {
         Auction auction1 = new Auction();
@@ -133,7 +130,7 @@ public class AuctionTest
         lot = auction1.getLot(4);
         assertEquals(4, lot.getNumber());
         assertEquals(true, auction1.removeLot(4));        
-    }*/
+    }
 }
 
 

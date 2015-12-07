@@ -20,4 +20,6 @@ comment6.params=
 comment6.target=java.util.ArrayList\ getUnsold()
 comment7.params=number
 comment7.target=boolean\ removeLot(int)
-numComments=8
+comment8.params=lotNumber
+comment8.target=int\ index(int)
+numComments=9
