@@ -8,4 +8,6 @@ comment1.text=\n\ Add\ a\ new\ member\ to\ the\ club's\ list\ of\ members.\n\ @p
 comment2.params=
 comment2.target=int\ numberOfMembers()
 comment2.text=\n\ @return\ The\ number\ of\ members\ (Membership\ objects)\ in\n\ \ \ \ \ \ \ \ \ the\ club.\n
-numComments=3
+comment3.params=month\ year
+comment3.target=java.util.ArrayList\ purge(int,\ int)
+numComments=4

@@ -26,8 +26,6 @@ public class MusicOrganizer
         player = new MusicPlayer();
         reader = new TrackReader();
         readLibrary("audio");
-        System.out.println("Music library loaded. " + getNumberOfTracks() + " tracks.");
-        System.out.println();
     }
     
     /**
@@ -151,27 +149,20 @@ public class MusicOrganizer
     
     public void playAllRandom() {
         if(tracks.size() > 0) {
-            Random randomIndex = new Random();
-            ArrayList<Integer> chosen = new ArrayList<Integer>();
+            Random random = new Random();
+            ArrayList<Track> playOrder = new ArrayList<Track>();
             
-            for(int index = 0; index < tracks.size(); index++) {
-                int random = randomIndex.nextInt(tracks.size() - 1);
+            ArrayList<Track> copy = new ArrayList<Track>(tracks);
+            
+            for(int x = 0; x < copy.size(); x = x) {
+                int randomIndex = random.nextInt(copy.size());
                 
-                boolean used = false;
-                
-                for(int num : chosen) {
-                    if(num == random) {
-                        used = true;
-                        random = randomIndex.nextInt(tracks.size() - 1);
-                    } else {
-                        used = false;
-                        chosen.add(random);
-                    }
-                }
-                
-                if(used == false) {
-                    System.out.println(tracks.get(random).getFilename());
-                }
+                playOrder.add(copy.get(randomIndex));
+                copy.remove(randomIndex);
+            }
+            
+            for(Track track : playOrder) {
+                System.out.println(track.getFilename());
             }
         }
     }

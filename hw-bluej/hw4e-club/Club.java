@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Store details of club memberships.
@@ -24,8 +25,7 @@ public class Club
      * Add a new member to the club's list of members.
      * @param member The member object to be added.
      */
-    public boolean join(Membership member) 
-    {
+    public boolean join(Membership member) {
         if(members.size() > 0) {
             for(Membership name : members) {
                 if((name.getName()).equals(member.getName())) {
@@ -48,8 +48,22 @@ public class Club
      * @return The number of members (Membership objects) in
      *         the club.
      */
-    public int numberOfMembers()
-    {
+    public int numberOfMembers() {
         return members.size();
+    }
+    
+    public ArrayList<Membership> purge(int month, int year) {
+        ArrayList<Membership> purged = new ArrayList<Membership>();
+        Iterator<Membership> it = members.iterator();
+        
+        for(Membership search: members) {
+            if(month == search.getMonth() && year == search.getYear() 
+            && search.getMonth() >= 1 && search.getMonth() <= 12) {
+                purged.add(search);
+                members.remove(search);
+            }
+        }
+        
+        return purged;
     }
 }
