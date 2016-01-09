@@ -1,5 +1,3 @@
-import java.util.*;
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -12,14 +10,17 @@ import java.util.*;
  */
 public class VideoStoreGUI extends javax.swing.JFrame {
 
+    /**
+     * Creates new form VideoStoreGUI
+     */
     
     private int page = 1;
     private int max = 1;
-    private ArrayList<VideoTape> tapes = new ArrayList<VideoTape>();
     
     public VideoStoreGUI() {
         initComponents();
     }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -57,12 +58,6 @@ public class VideoStoreGUI extends javax.swing.JFrame {
         titleLabel.setText("Title");
 
         lengthLabel.setText("Length");
-
-        titleField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                titleFieldActionPerformed(evt);
-            }
-        });
 
         lengthField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -238,71 +233,36 @@ public class VideoStoreGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_homeButtonActionPerformed
     
     private void leftButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_leftButtonActionPerformed
-        titleField.setText("");
-	lengthField.setText("");
-	
-	if(page > 1) {
+        if(page > 1) {
 	   page--;
 	    videoNumberLabel.setText(page + " of " + max);
 	}
-	
-	titleField.setText(tapes.get(page - 1).getTitle());
-	lengthField.setText("" + tapes.get(page - 1).getLength());
     }//GEN-LAST:event_leftButtonActionPerformed
 
     private void rightButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rightButtonActionPerformed
-        titleField.setText("");
-	lengthField.setText("");
-	
-	if(page < max) {
+        if(page < max) {
 	    page++;
 	    videoNumberLabel.setText(page + " of " + max);
 	}
-	
-	titleField.setText(tapes.get(page - 1).getTitle());
-	lengthField.setText("" + tapes.get(page - 1).getLength());
     }//GEN-LAST:event_rightButtonActionPerformed
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
-	
-	if(titleField.getText().length() > 0 && lengthField.getText().length() > 0) {
-	    tapes.add(new VideoTape(titleField.getText(), Integer.parseInt(lengthField.getText()), 
-				    isOnLoan.isSelected()));
-	}
-	
-	max++;
+        max++;
+	page++;
 	videoNumberLabel.setText(page + " of " + max);
     }//GEN-LAST:event_addButtonActionPerformed
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
         if(max > 1 && page > 1) {
-	    
 	    max--;
 	    page--;
 	    videoNumberLabel.setText(page + " of " + max);
-	    
-	    titleField.setText(tapes.get(page).getTitle());
-	    lengthField.setText("" + tapes.get(page).getLength());
-	    tapes.remove(page);
 	}
 	else if(page == 1 && max > 1) {
 	    max--;
 	    videoNumberLabel.setText(page + " of " + max);
-	    
-	    tapes.remove(page);
-	    titleField.setText("");
-	    lengthField.setText("");
-	}
-	else if(page == 1 && max == 1) {
-	    tapes.remove(page);
-	    titleField.setText("");
-	    lengthField.setText("");
 	}
     }//GEN-LAST:event_deleteButtonActionPerformed
-
-    private void titleFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_titleFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_titleFieldActionPerformed
 
     /**
      * @param args the command line arguments
