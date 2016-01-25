@@ -51,7 +51,7 @@
                   <Component id="deleteButton" alignment="0" max="32767" attributes="0"/>
                   <Component id="addButton" alignment="0" min="-2" pref="86" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="11" max="32767" attributes="0"/>
+              <EmptySpace pref="23" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -104,17 +104,19 @@
                                           </Group>
                                       </Group>
                                   </Group>
-                                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                      <Group type="102" attributes="0">
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
+                                          <Component id="lengthField" alignment="0" pref="159" max="32767" attributes="0"/>
+                                          <Component id="titleField" alignment="0" max="32767" attributes="0"/>
+                                      </Group>
+                                      <Group type="102" alignment="0" attributes="0">
                                           <Component id="leftButton" min="-2" pref="49" max="-2" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
                                           <Component id="rightButton" min="-2" pref="49" max="-2" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
                                           <Component id="endButton" min="-2" pref="49" max="-2" attributes="0"/>
                                       </Group>
-                                      <Component id="lengthField" alignment="0" max="32767" attributes="0"/>
-                                      <Component id="titleField" alignment="0" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
@@ -187,6 +189,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="On Loan"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="isOnLoanActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="homeButton">
           <Properties>
@@ -222,7 +227,7 @@
         </Component>
         <Component class="javax.swing.JLabel" name="videoNumberLabel">
           <Properties>
-            <Property name="text" type="java.lang.String" value="1 of 1"/>
+            <Property name="text" type="java.lang.String" value="0 of 0"/>
           </Properties>
         </Component>
       </SubComponents>
@@ -247,11 +252,17 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Apply"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="applyButtonActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="cancelButton">
       <Properties>
         <Property name="text" type="java.lang.String" value="Cancel"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cancelButtonActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

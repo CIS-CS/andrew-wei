@@ -13,8 +13,8 @@ import java.util.*;
 public class VideoStoreGUI extends javax.swing.JFrame {
 
     
-    private int page = 1;
-    private int max = 1;
+    private int page = 0;
+    private int max = 0;
     private ArrayList<VideoTape> tapes = new ArrayList<VideoTape>();
     
     public VideoStoreGUI() {
@@ -71,6 +71,11 @@ public class VideoStoreGUI extends javax.swing.JFrame {
         });
 
         isOnLoan.setText("On Loan");
+        isOnLoan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                isOnLoanActionPerformed(evt);
+            }
+        });
 
         homeButton.setText("|<");
         homeButton.addActionListener(new java.awt.event.ActionListener() {
@@ -100,7 +105,7 @@ public class VideoStoreGUI extends javax.swing.JFrame {
             }
         });
 
-        videoNumberLabel.setText("1 of 1");
+        videoNumberLabel.setText("0 of 0");
 
         javax.swing.GroupLayout detailsPanelLayout = new javax.swing.GroupLayout(detailsPanel);
         detailsPanel.setLayout(detailsPanelLayout);
@@ -118,16 +123,17 @@ public class VideoStoreGUI extends javax.swing.JFrame {
                                         .addGroup(detailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(titleLabel)
                                             .addComponent(lengthLabel))))
-                                .addGap(18, 18, 18)
-                                .addGroup(detailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(detailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(detailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(lengthField, javax.swing.GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE)
+                                        .addComponent(titleField))
                                     .addGroup(detailsPanelLayout.createSequentialGroup()
                                         .addComponent(leftButton, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(rightButton, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(endButton, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(lengthField)
-                                    .addComponent(titleField)))
+                                        .addComponent(endButton, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))))
                             .addGroup(detailsPanelLayout.createSequentialGroup()
                                 .addContainerGap()
                                 .addComponent(isOnLoan)))
@@ -176,8 +182,18 @@ public class VideoStoreGUI extends javax.swing.JFrame {
         });
 
         applyButton.setText("Apply");
+        applyButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                applyButtonActionPerformed(evt);
+            }
+        });
 
         cancelButton.setText("Cancel");
+        cancelButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelButtonActionPerformed(evt);
+            }
+        });
 
         fileMenu.setText("File");
         menuBar.add(fileMenu);
@@ -200,7 +216,7 @@ public class VideoStoreGUI extends javax.swing.JFrame {
                     .addComponent(applyButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(deleteButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(addButton, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(11, Short.MAX_VALUE))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -228,73 +244,117 @@ public class VideoStoreGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_lengthFieldActionPerformed
 
     private void endButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_endButtonActionPerformed
-	page = max;
-	videoNumberLabel.setText(page + " of " + max);
+	
+	if(page < max) {
+	    page = max;
+	    videoNumberLabel.setText(page + " of " + max);
+	
+	    titleField.setText(tapes.get(page - 1).getTitle());
+	    lengthField.setText("" + tapes.get(page - 1).getLength()); 
+	    isOnLoan.setSelected(tapes.get(page - 1).isLent());
+	}
     }//GEN-LAST:event_endButtonActionPerformed
 
     private void homeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_homeButtonActionPerformed
-	page = 1;
-	videoNumberLabel.setText(page + " of " + max);
+	
+	if(page > 1) {
+	    page = 1;
+	    max = 1;
+	    videoNumberLabel.setText(page + " of " + max);
+	
+	    titleField.setText(tapes.get(0).getTitle());
+	    lengthField.setText("" + tapes.get(0).getLength());
+	    isOnLoan.setSelected(tapes.get(0).isLent());
+	}
     }//GEN-LAST:event_homeButtonActionPerformed
     
     private void leftButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_leftButtonActionPerformed
-        titleField.setText("");
-	lengthField.setText("");
-	
+
 	if(page > 1) {
-	   page--;
+	    titleField.setText("");
+	    lengthField.setText("");
+	    
+	    page--;
 	    videoNumberLabel.setText(page + " of " + max);
+	    
+	    titleField.setText(tapes.get(page - 1).getTitle());
+	    lengthField.setText("" + tapes.get(page - 1).getLength());
+	    isOnLoan.setSelected(tapes.get(page - 1).isLent());
 	}
-	
-	titleField.setText(tapes.get(page - 1).getTitle());
-	lengthField.setText("" + tapes.get(page - 1).getLength());
     }//GEN-LAST:event_leftButtonActionPerformed
 
     private void rightButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rightButtonActionPerformed
-        titleField.setText("");
-	lengthField.setText("");
 	
 	if(page < max) {
+	    titleField.setText("");
+	    lengthField.setText("");	    
+	    
 	    page++;
 	    videoNumberLabel.setText(page + " of " + max);
-	}
-	
-	titleField.setText(tapes.get(page - 1).getTitle());
-	lengthField.setText("" + tapes.get(page - 1).getLength());
+	    
+	    titleField.setText(tapes.get(page - 1).getTitle());
+	    lengthField.setText("" + tapes.get(page - 1).getLength());
+	    isOnLoan.setSelected(tapes.get(page - 1).isLent());
+	}	
     }//GEN-LAST:event_rightButtonActionPerformed
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
 	
-	if(titleField.getText().length() > 0 && lengthField.getText().length() > 0) {
-	    tapes.add(new VideoTape(titleField.getText(), Integer.parseInt(lengthField.getText()), 
-				    isOnLoan.isSelected()));
+	int length = 0;
+	try {
+	    length = Integer.parseInt(lengthField.getText());
+	}
+	catch(NumberFormatException e) {
+	    
 	}
 	
-	max++;
-	videoNumberLabel.setText(page + " of " + max);
+	if(titleField.getText().length() <= 5 && titleField.getText().length() > 0 &&
+	    lengthField.getText().length() > 0 && length > 0 && length <= 100) {
+	    
+	    tapes.add(new VideoTape(titleField.getText(), length,isOnLoan.isSelected()));
+	
+	    page++;
+	    max++;
+	    videoNumberLabel.setText(page + " of " + max);
+	}
     }//GEN-LAST:event_addButtonActionPerformed
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
-        if(max > 1 && page > 1) {
-	    
-	    max--;
-	    page--;
-	    videoNumberLabel.setText(page + " of " + max);
-	    
-	    titleField.setText(tapes.get(page).getTitle());
-	    lengthField.setText("" + tapes.get(page).getLength());
-	    tapes.remove(page);
-	}
-	else if(page == 1 && max > 1) {
-	    max--;
-	    videoNumberLabel.setText(page + " of " + max);
-	    
-	    tapes.remove(page);
+	
+	if(page == 1 && max > 1) {
 	    titleField.setText("");
 	    lengthField.setText("");
+	    
+	    max--;
+	    videoNumberLabel.setText(page + " of " + max);
+	    
+	    titleField.setText(tapes.get(1).getTitle());
+	    lengthField.setText("" + tapes.get(1).getLength());
+	    
+	    tapes.remove(0);
 	}
-	else if(page == 1 && max == 1) {
+	
+	else if(page > 1 && max > 1) {
+	    titleField.setText("");
+	    lengthField.setText("");
+	    
+	    page--;
+	    max--;
+	    videoNumberLabel.setText(page + " of " + max);
+	    
 	    tapes.remove(page);
+	    
+	    titleField.setText(tapes.get(page - 1).getTitle());
+	    lengthField.setText("" + tapes.get(page - 1).getLength());
+	}
+	
+	else if(page == 1 && max == 1) {
+	    page--;
+	    max--;
+	    videoNumberLabel.setText(page + " of " + max);
+	    
+	    tapes.remove(0);
+	   
 	    titleField.setText("");
 	    lengthField.setText("");
 	}
@@ -303,6 +363,34 @@ public class VideoStoreGUI extends javax.swing.JFrame {
     private void titleFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_titleFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_titleFieldActionPerformed
+
+    private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
+        // TODO add your handling code here:
+	titleField.setText(tapes.get(page - 1).getTitle());
+	lengthField.setText("" + tapes.get(page - 1).getLength());
+    }//GEN-LAST:event_cancelButtonActionPerformed
+
+    private void applyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_applyButtonActionPerformed
+
+	int length = 0;
+	try {
+	    length = Integer.parseInt(lengthField.getText());
+	}
+	catch(NumberFormatException e) {
+	    
+	}
+	
+	if(titleField.getText().length() <= 5 && titleField.getText().length() > 0 &&
+	    lengthField.getText().length() > 0 && length > 0 && length <= 100) {
+	    
+	    tapes.get(page - 1).setTitle(titleField.getText());
+	    tapes.get(page - 1).setLength(length);
+	}
+    }//GEN-LAST:event_applyButtonActionPerformed
+
+    private void isOnLoanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_isOnLoanActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_isOnLoanActionPerformed
 
     /**
      * @param args the command line arguments
