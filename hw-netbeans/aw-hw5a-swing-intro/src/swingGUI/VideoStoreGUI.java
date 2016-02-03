@@ -245,7 +245,7 @@ public class VideoStoreGUI extends javax.swing.JFrame {
 
     private void endButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_endButtonActionPerformed
 	
-	if(page < max) {
+	if(page <= max) {
 	    page = max;
 	    videoNumberLabel.setText(page + " of " + max);
 	
@@ -259,7 +259,6 @@ public class VideoStoreGUI extends javax.swing.JFrame {
 	
 	if(page > 1) {
 	    page = 1;
-	    max = 1;
 	    videoNumberLabel.setText(page + " of " + max);
 	
 	    titleField.setText(tapes.get(0).getTitle());
@@ -311,7 +310,7 @@ public class VideoStoreGUI extends javax.swing.JFrame {
 	if(titleField.getText().length() <= 5 && titleField.getText().length() > 0 &&
 	    lengthField.getText().length() > 0 && length > 0 && length <= 100) {
 	    
-	    tapes.add(new VideoTape(titleField.getText(), length,isOnLoan.isSelected()));
+	    tapes.add(new VideoTape(titleField.getText(), length, isOnLoan.isSelected()));
 	
 	    page++;
 	    max++;
@@ -330,6 +329,7 @@ public class VideoStoreGUI extends javax.swing.JFrame {
 	    
 	    titleField.setText(tapes.get(1).getTitle());
 	    lengthField.setText("" + tapes.get(1).getLength());
+	    isOnLoan.setSelected(tapes.get(page - 1).isLent());
 	    
 	    tapes.remove(0);
 	}
@@ -346,6 +346,7 @@ public class VideoStoreGUI extends javax.swing.JFrame {
 	    
 	    titleField.setText(tapes.get(page - 1).getTitle());
 	    lengthField.setText("" + tapes.get(page - 1).getLength());
+	    isOnLoan.setSelected(tapes.get(page - 1).isLent());
 	}
 	
 	else if(page == 1 && max == 1) {
@@ -357,6 +358,7 @@ public class VideoStoreGUI extends javax.swing.JFrame {
 	   
 	    titleField.setText("");
 	    lengthField.setText("");
+	    isOnLoan.setSelected(false);
 	}
     }//GEN-LAST:event_deleteButtonActionPerformed
 
@@ -385,6 +387,7 @@ public class VideoStoreGUI extends javax.swing.JFrame {
 	    
 	    tapes.get(page - 1).setTitle(titleField.getText());
 	    tapes.get(page - 1).setLength(length);
+	    tapes.get(page - 1).setLent(isOnLoan.isSelected());
 	}
     }//GEN-LAST:event_applyButtonActionPerformed
 
