@@ -21,6 +21,8 @@ public class VideoStoreGUI extends javax.swing.JFrame {
     
     public VideoStoreGUI() {
         initComponents();
+	
+	page = tapes.getSize();
     }
 
     /**

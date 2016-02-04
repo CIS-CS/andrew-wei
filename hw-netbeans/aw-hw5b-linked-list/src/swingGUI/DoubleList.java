@@ -14,7 +14,8 @@ public class DoubleList {
     // Instance variables
     private DoubleNode head = null;
     private DoubleNode tail = null;
-    private DoubleNode current = null;  // points to last inserted node
+    private DoubleNode current = null;
+    private int count = 0;
 
     /**
      *  Inserts a tape at the head of the list.
@@ -25,20 +26,22 @@ public class DoubleList {
 	DoubleNode node = new DoubleNode(tape);
 	
         // Check if the list is empty
-        if (head == null)
-        {
-            // Add the node to the empty list.
+        if (head == null) {
+	    // Add the node to the empty list.
             head = node;
             tail = node;
             current = head;
+	    
+	    count++;
         }
-        else
-        {
-            // The list is not empty. Add at head.
+	else {
+	    // The list is not empty. Add at head.
             head.setPrev(node);
             node.setNext(head);
             head = node;
             current = head;
+	    
+	    count++;
         }
     }
 
@@ -57,6 +60,8 @@ public class DoubleList {
             head = node;
             tail = node;
             current = node;
+	    
+	    count++;
         }
         else
         {
@@ -65,6 +70,8 @@ public class DoubleList {
             node.setPrev(tail);
             tail = node;
             current = tail;
+	    
+	    count++;
         }
     }
     
@@ -75,8 +82,10 @@ public class DoubleList {
 	}
 	else {
 	    current = current.getNext();
+	    
+	    count++;
+	    
 	    return current.getTape();
-
 	}
     }
     
@@ -87,8 +96,10 @@ public class DoubleList {
 	}
 	else {
 	    current = current.getPrev();
+	    
+	    count--;
+	    
 	    return current.getTape();
-
 	}
     }
     
@@ -113,6 +124,8 @@ public class DoubleList {
 	current = head;
 	head.getPrev().setNext(null);
 	head.setPrev(null);
+	
+	count--;
     }
     
     public void removeMiddle() {
@@ -124,7 +137,8 @@ public class DoubleList {
 	current.setNext(null);
 	current.setPrev(null);
 	current = temp;
-	//Original current still pointing to new current.
+
+	count--;
     }
     
     public void removeTail() {
@@ -133,12 +147,21 @@ public class DoubleList {
 	current = tail;
 	tail.getNext().setPrev(null);
 	tail.setNext(null);
+	
+	count--;
     }
     
     public void removeLast() {
 	
 	head = null;
 	tail = null;
+	
+	count = 0;
+    }
+    
+    public int getSize() {
+	
+	return count;
     }
     
     /**
