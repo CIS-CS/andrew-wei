@@ -60,15 +60,17 @@ public class SingleList
      *  Since the list is singly-linked, it is necessary to maintain a reference
      *  back to the previous node. 
      */
-    public void remove() throws Exception {        
+    public void remove() {        
         
         if (isEmpty()) {
-            throw new Exception("Value not found.");
-        }
+
+	}
         
 	else {
-	    while(head.getNext().getNext() != null) {
-		current = head.getNext();
+	    current = head;
+	    
+	    while(current.getNext().getNext() != null) {
+		current = current.getNext();
 	    }
 	    
 	    tail = current;
@@ -80,15 +82,15 @@ public class SingleList
      * Return the size of the list.
      * @return the size of the list.
      */
-    public int size()
-    {
-        int result = 0;
-        SingleNode current = head;
+    public int size() {
         
-        while (current != null)
+	int result = 0;
+        SingleNode counter = head;
+        
+        while (counter.getNext() != null)
         {
             result++;
-            current = current.getNext();
+	    counter = counter.getNext();
         }
         return result;
     }

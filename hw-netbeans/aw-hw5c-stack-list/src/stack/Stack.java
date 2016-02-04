@@ -36,14 +36,12 @@ public class Stack {
     /**
      * Remove top element from the stack.
      */
-    public void pop() throws Exception {
+    public void pop() {
 
-        if (!isEmpty()) {
+        if (stack.size() != 0) {
             stack.remove();
         }
-        else {
-            throw(new Exception("Cannot pop: Stack is empty."));
-        }
+        
     }
     
     /**
@@ -63,35 +61,19 @@ public class Stack {
      * Get the size of the stack.
      * @return The size of the stack.
      */
-    /*public int size() {
+    public int size() {
 
-        if (isEmpty()) {
-            return 0;
-        }
-        else {
-            return sp + 1;
-        }
-    }*/
+        return stack.size();
+    }
     
     /**
      * Converts the stack to a String, with the top item on the left.
      * @return The stack in the form of a String.
      */
-    /*public String toString()
-    {
-        StringBuffer sb = new StringBuffer();
-
-        // Make a copy of the stack-array so we do not disturb the real stack.
-        int[] temp = Arrays.copyOf(stack, stack.length);
+    public String toString() {
         
-        // copy the items into the StringBuffer
-        for (int i = size()-1; i >= 0; i--)
-        {
-            sb = sb.append(temp[i]).append("\n");
-            System.out.println(sb);
-        }
-        return sb.toString();
-    }*/
+	return stack.toString();
+    }
 }
 
 

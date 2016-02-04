@@ -16,12 +16,14 @@ public class StackApp {
         try {
             
             s.push(100);
-            s.push(101);
+	    s.push(101);
             s.push(102);
             s.push(103);
             s.push(104);
+	    s.push(105);
             s.pop();
             s.pop();
+	    
 	    
             System.out.println(s.toString());
         }
