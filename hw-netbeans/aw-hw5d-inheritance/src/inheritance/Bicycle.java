@@ -17,19 +17,19 @@ public class Bicycle {
     private int speed;
         
     // the Bicycle class has one constructor
-    public Bicycle(int startCadence, int startSpeed, int startGear) {
-        gear = startGear;
-        cadence = startCadence;
-        speed = startSpeed;
+    public Bicycle(int cadence, int speed, int gear) {
+        this.gear = gear;
+        this.cadence = cadence;
+        this.speed = speed;
     }
         
     // the Bicycle class has four methods
-    public void setCadence(int newValue) {
-        cadence = newValue;
+    public void setCadence(int cadence) {
+        this.cadence = cadence;
     }
         
-    public void setGear(int newValue) {
-        gear = newValue;
+    public void setGear(int gear) {
+        this.gear = gear;
     }
         
     public void applyBrake(int decrement) {

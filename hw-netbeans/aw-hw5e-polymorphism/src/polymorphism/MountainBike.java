@@ -12,28 +12,23 @@ package polymorphism;
 public class MountainBike extends Bicycle {
     private String suspension;
 
-    public MountainBike(
-               int startCadence,
-               int startSpeed,
-               int startGear,
-               String suspensionType){
-        super(startCadence,
-              startSpeed,
-              startGear);
-        this.setSuspension(suspensionType);
+    public MountainBike(int cadence, int speed, int gear, String suspension){
+        
+	super(cadence, speed, gear);
+        this.setSuspension(suspension);
     }
 
     public String getSuspension(){
       return this.suspension;
     }
 
-    public void setSuspension(String suspensionType) {
-        this.suspension = suspensionType;
+    public void setSuspension(String suspension) {
+        this.suspension = suspension;
     }
 
     public void printDescription() {
         super.printDescription();
-        System.out.println("The " + "MountainBike has a" +
+        System.out.println("The " + "MountainBike has a " +
             getSuspension() + " suspension.");
     }
 } 

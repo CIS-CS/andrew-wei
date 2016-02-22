@@ -17,19 +17,19 @@ public class Bicycle {
     private int speed;
         
     // the Bicycle class has one constructor
-    public Bicycle(int startCadence, int startSpeed, int startGear) {
-        gear = startGear;
-        cadence = startCadence;
-        speed = startSpeed;
+    public Bicycle(int cadence, int speed, int gear) {
+        this.gear = gear;
+        this.cadence = cadence;
+        this.speed = speed;
     }
         
     // the Bicycle class has four methods
-    public void setCadence(int newValue) {
-        cadence = newValue;
+    public void setCadence(int cadence) {
+        this.cadence = cadence;
     }
         
     public void setGear(int newValue) {
-        gear = newValue;
+        this.gear = gear;
     }
         
     public void applyBrake(int decrement) {
@@ -43,7 +43,7 @@ public class Bicycle {
     public void printDescription(){
     System.out.println("\nBike is " + "in gear " + this.gear
         + " with a cadence of " + this.cadence +
-        " and travelling at a speed of " + this.speed + ". ");
+        " and travelling at a speed of " + this.speed + "km/h. ");
     }
         
 }
