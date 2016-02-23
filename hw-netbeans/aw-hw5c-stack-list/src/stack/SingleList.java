@@ -96,6 +96,13 @@ public class SingleList
     }
     
     /**
+     * Return true if list is empty, false if list is not empty
+     */
+    public boolean isEmpty() {
+        return (head == null && tail == null) ? true : false;
+    }
+    
+    /**
      * Return a string representation of the list.
      */ 
     public String toString() {
@@ -111,9 +118,7 @@ public class SingleList
         return "List = " + sb.toString();
     }
     
-    public boolean isEmpty() {
-        return (head == null && tail == null) ? true : false;
-    }
+    
 }
 
 
