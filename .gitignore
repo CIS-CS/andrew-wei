@@ -16,3 +16,4 @@
 *.xml
 *.properties
 
+/hw-netbeans/aw-hw5b-linked-list/build/

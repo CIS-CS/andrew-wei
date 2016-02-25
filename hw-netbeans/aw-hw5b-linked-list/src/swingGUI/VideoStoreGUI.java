@@ -45,6 +45,8 @@ public class VideoStoreGUI extends javax.swing.JFrame {
         rightButton = new javax.swing.JButton();
         endButton = new javax.swing.JButton();
         videoNumberLabel = new javax.swing.JLabel();
+        errorMsg1 = new javax.swing.JLabel();
+        errorMsg2 = new javax.swing.JLabel();
         addButton = new javax.swing.JButton();
         deleteButton = new javax.swing.JButton();
         applyButton = new javax.swing.JButton();
@@ -117,6 +119,9 @@ public class VideoStoreGUI extends javax.swing.JFrame {
             detailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(detailsPanelLayout.createSequentialGroup()
                 .addGroup(detailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, detailsPanelLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(videoNumberLabel))
                     .addGroup(detailsPanelLayout.createSequentialGroup()
                         .addGroup(detailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(detailsPanelLayout.createSequentialGroup()
@@ -140,11 +145,13 @@ public class VideoStoreGUI extends javax.swing.JFrame {
                                         .addComponent(endButton, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))))
                             .addGroup(detailsPanelLayout.createSequentialGroup()
                                 .addContainerGap()
-                                .addComponent(isOnLoan)))
-                        .addGap(0, 53, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, detailsPanelLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(videoNumberLabel)))
+                                .addComponent(isOnLoan))
+                            .addGroup(detailsPanelLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(detailsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(errorMsg1)
+                                    .addComponent(errorMsg2))))
+                        .addGap(0, 53, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         detailsPanelLayout.setVerticalGroup(
@@ -166,7 +173,11 @@ public class VideoStoreGUI extends javax.swing.JFrame {
                     .addComponent(homeButton)
                     .addComponent(leftButton)
                     .addComponent(endButton))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 76, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(errorMsg1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(errorMsg2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 58, Short.MAX_VALUE)
                 .addComponent(videoNumberLabel)
                 .addContainerGap())
         );
@@ -319,6 +330,13 @@ public class VideoStoreGUI extends javax.swing.JFrame {
 	    page++;
 	    max++;
 	    videoNumberLabel.setText(page + " of " + max);
+	    
+	    errorMsg1.setText("");
+	    errorMsg2.setText("");
+	}
+	else {
+	    errorMsg1.setText("Title must be ≤5 characters,");
+	    errorMsg2.setText("length must be between 1 and 100.");
 	}
     }//GEN-LAST:event_addButtonActionPerformed
 
@@ -410,6 +428,13 @@ public class VideoStoreGUI extends javax.swing.JFrame {
 	    tapes.getCurrent().setTitle(titleField.getText());
 	    tapes.getCurrent().setLength(length);
 	    tapes.getCurrent().setLent(isOnLoan.isSelected());
+	    
+	    errorMsg1.setText("");
+	    errorMsg2.setText("");
+	}
+	else {
+	    errorMsg1.setText("Title must be ≤5 characters,");
+	    errorMsg2.setText("length must be between 1 and 100.");
 	}
     }//GEN-LAST:event_applyButtonActionPerformed
 
@@ -459,6 +484,8 @@ public class VideoStoreGUI extends javax.swing.JFrame {
     private javax.swing.JButton deleteButton;
     private javax.swing.JPanel detailsPanel;
     private javax.swing.JButton endButton;
+    private javax.swing.JLabel errorMsg1;
+    private javax.swing.JLabel errorMsg2;
     private javax.swing.JMenu fileMenu;
     private javax.swing.JMenu helpMenu;
     private javax.swing.JButton homeButton;
