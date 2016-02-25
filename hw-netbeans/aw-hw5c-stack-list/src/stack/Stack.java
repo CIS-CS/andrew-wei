@@ -37,11 +37,13 @@ public class Stack {
      * Remove top element from the stack.
      */
     public void pop() {
-
-        if (stack.size() != 0) {
+		
+	if (stack.size() != 0) {
             stack.remove();
         }
-        
+	else {
+	    System.out.println("Nothing to remove!");
+	}   
     }
     
     /**
@@ -72,7 +74,7 @@ public class Stack {
      */
     public String toString() {
         
-	return stack.toString();
+	return (size() != 0) ? stack.toString() : "List is empty.";
     }
 }
 

@@ -15,15 +15,17 @@ public class StackApp {
         
         try {
             
-            s.push(100);
-	    s.push(101);
-            s.push(102);
-            s.push(103);
-            s.push(104);
-	    s.push(105);
+	    s.push(100);
+	    s.push(200);
+	    s.push(300);
             s.pop();
-            s.pop();
-	    
+	    s.push(400);
+	    /*
+	    s.pop();
+	    s.pop();
+	    s.pop();
+	    s.pop();
+	    */
 	    
             System.out.println(s.toString());
         }

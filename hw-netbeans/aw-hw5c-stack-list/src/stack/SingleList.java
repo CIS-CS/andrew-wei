@@ -23,8 +23,7 @@ public class SingleList
      *  Four possibilities: 
      *  1. the list is empty; start a new list. 
      *  2. add to the front of the list. 
-     *  3. add to the end of the list.
-     *  4. insert into the middle of the list.     
+     *  3. add to the end of the list. 
      */ 
     public void add(int data) {
         
@@ -69,12 +68,19 @@ public class SingleList
 	else {
 	    current = head;
 	    
-	    while(current.getNext().getNext() != null) {
+	    if(size() > 1) {
+		while(current.getNext().getNext() != null) {
 		current = current.getNext();
-	    }
+		}
 	    
-	    tail = current;
-	    tail.setNext(null);
+		tail = current;
+		tail.setNext(null);
+	    }
+	    else {
+		current = null;
+		head = null;
+		tail = null;
+	    }
 	}
     }
     
@@ -85,13 +91,14 @@ public class SingleList
     public int size() {
         
 	int result = 0;
-        SingleNode counter = head;
-        
-        while (counter.getNext() != null)
+        SingleNode counter = head;    
+	
+        while (counter != null)
         {
             result++;
 	    counter = counter.getNext();
         }
+	
         return result;
     }
     
