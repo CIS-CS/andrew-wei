@@ -105,11 +105,13 @@ public class DoubleList {
     
     public VideoTape getHead() {
 	
+	current = head;
 	return head.getTape();
     }
     
     public VideoTape getTail() {
 	
+	current = tail;
 	return tail.getTape();
     }
     
