@@ -9,8 +9,18 @@ package physicsapp;
  *
  * @author Andrew
  */
-public class Square {
+public class Square extends Image {
     
-    private int side;
+    private double side;
+    
+    public Square(double side, int posX, int posY) {
+	
+	super(posX, posY);
+	this.side = side;
+    }
+    
+    public void setSide(double side) {
+	this.side = side;
+    }
     
 }

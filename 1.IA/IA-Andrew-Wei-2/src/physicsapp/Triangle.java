@@ -11,4 +11,5 @@ package physicsapp;
  */
 public class Triangle {
     
+    private 
 }

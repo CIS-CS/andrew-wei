@@ -11,4 +11,11 @@ package physicsapp;
  */
 public class Image {
     
+    private int posX;
+    private int posY;
+    
+    public Image(int posX, int posY) {
+	this.posX = posX;
+	this.posY = posY;
+    }
 }
