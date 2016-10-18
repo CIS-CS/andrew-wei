@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package physicsapp;
 
 /**
@@ -13,9 +9,9 @@ public class Square extends Image {
     
     private double side;
     
-    public Square(double side, int posX, int posY) {
+    public Square(int x, int y, double side) {
 	
-	super(posX, posY);
+	super(x, y);
 	this.side = side;
     }
     
@@ -23,4 +19,7 @@ public class Square extends Image {
 	this.side = side;
     }
     
+    public double getSide() {
+	return side;
+    }
 }

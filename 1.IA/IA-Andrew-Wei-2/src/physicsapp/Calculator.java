@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package physicsapp;
 
 /**
@@ -34,6 +30,10 @@ public class Calculator {
     
     public double calcNewFriction(double friction) {
 	return friction;
+    }
+    
+    public double calcNewSlope(double slope) { 
+	return slope;
     }
     
     public double calcNewVelocity(double velocity) {
