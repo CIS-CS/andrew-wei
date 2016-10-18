@@ -36,4 +36,8 @@ public class Calculator {
 	return friction;
     }
     
+    public double calcNewVelocity(double velocity) {
+	return velocity;
+    }
+    
 }
