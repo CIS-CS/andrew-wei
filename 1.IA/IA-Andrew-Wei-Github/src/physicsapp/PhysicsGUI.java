@@ -27,6 +27,7 @@ public class PhysicsGUI extends javax.swing.JFrame {
     private double friction = 0.0;
     private double slope = 0.0;
     private double velocity = 0.0;
+    private String selectedItem = "";
     
     
     /**
@@ -68,15 +69,15 @@ public class PhysicsGUI extends javax.swing.JFrame {
                 Color green = new Color(3329330);
 
                 g.setColor(blue);
-                g.fillRect(125, 45, 40, 40);
+                g.fillRect(171, 131, 40, 40);
                 g.setColor(Color.BLACK);
-                g.drawRect(125, 45, 40, 40);
+                g.drawRect(171, 131, 40, 40);
 
                 //g2d.rotate(Math.toRadians(45));
                 g.setColor(green);
-                g.fillPolygon(new int[] {65, 165, 165}, new int[] {185, 185, 85}, 3);
+                g.fillPolygon(new int[] {111, 211, 211}, new int[] {271, 271, 171}, 3);
                 g.setColor(Color.BLACK);
-                g.drawPolygon(new int[] {65, 165, 165}, new int[] {185, 185, 85}, 3);
+                g.drawPolygon(new int[] {111, 211, 211}, new int[] {271, 271, 171}, 3);
             }
         };
         frictionSlider = new javax.swing.JSlider();
@@ -105,15 +106,15 @@ public class PhysicsGUI extends javax.swing.JFrame {
                 Color green = new Color(3329330);
 
                 g.setColor(blue);
-                g.fillRect(125, 45, 40, 40);
+                g.fillRect(171, 131, 40, 40);
                 g.setColor(Color.BLACK);
-                g.drawRect(125, 45, 40, 40);
+                g.drawRect(171, 131, 40, 40);
 
                 //g2d.rotate(Math.toRadians(45));
                 g.setColor(green);
-                g.fillPolygon(new int[] {65, 165, 165}, new int[] {185, 185, 85}, 3);
+                g.fillPolygon(new int[] {111, 211, 211}, new int[] {271, 271, 171}, 3);
                 g.setColor(Color.BLACK);
-                g.drawPolygon(new int[] {65, 165, 165}, new int[] {185, 185, 85}, 3);
+                g.drawPolygon(new int[] {111, 211, 211}, new int[] {271, 271, 171}, 3);
             }
         };
         jLabel6 = new javax.swing.JLabel();
@@ -223,21 +224,21 @@ public class PhysicsGUI extends javax.swing.JFrame {
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setLocation(new java.awt.Point(340, 194));
+        setLocation(new java.awt.Point(290, 170));
         setResizable(false);
 
         experimentImage.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        experimentImage.setPreferredSize(new java.awt.Dimension(230, 200));
+        experimentImage.setPreferredSize(new java.awt.Dimension(322, 286));
 
         javax.swing.GroupLayout experimentImageLayout = new javax.swing.GroupLayout(experimentImage);
         experimentImage.setLayout(experimentImageLayout);
         experimentImageLayout.setHorizontalGroup(
             experimentImageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 226, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         experimentImageLayout.setVerticalGroup(
             experimentImageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 196, Short.MAX_VALUE)
+            .addGap(0, 282, Short.MAX_VALUE)
         );
 
         frictionSlider.setMajorTickSpacing(1);
@@ -282,7 +283,7 @@ public class PhysicsGUI extends javax.swing.JFrame {
 
         jLabel5.setText("Diagram");
 
-        jLabel12.setText("Select a variable:");
+        jLabel12.setText("Select a variable to vary:");
 
         experimentVariableSelector.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Mass", "Friction", "Velocity", "Slope" }));
         experimentVariableSelector.addActionListener(new java.awt.event.ActionListener() {
@@ -304,40 +305,42 @@ public class PhysicsGUI extends javax.swing.JFrame {
             .addGroup(experimentPanelLayout.createSequentialGroup()
                 .addGap(15, 15, 15)
                 .addGroup(experimentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5)
-                    .addComponent(experimentImage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(experimentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(massSlider, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(experimentPanelLayout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(251, 251, 251))
-                    .addComponent(frictionSlider, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(velocitySlider, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(slopeSlider, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel12)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(experimentVariableSelector, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(101, 101, 101)
+                        .addComponent(experimentOk)
+                        .addGap(18, 18, 18)
+                        .addComponent(experimentReset)
+                        .addGap(0, 116, Short.MAX_VALUE))
                     .addGroup(experimentPanelLayout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addGroup(experimentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(experimentPanelLayout.createSequentialGroup()
+                                .addComponent(jLabel5)
+                                .addGap(0, 275, Short.MAX_VALUE))
+                            .addComponent(experimentImage, javax.swing.GroupLayout.DEFAULT_SIZE, 328, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(experimentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
+                            .addComponent(jLabel4)
+                            .addGroup(experimentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(massSlider, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+                                .addComponent(frictionSlider, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(velocitySlider, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(slopeSlider, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addComponent(jLabel3)
-                            .addComponent(jLabel4))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
-            .addGroup(experimentPanelLayout.createSequentialGroup()
-                .addGap(40, 40, 40)
-                .addComponent(jLabel12)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(experimentVariableSelector, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(76, 76, 76)
-                .addComponent(experimentOk)
-                .addGap(18, 18, 18)
-                .addComponent(experimentReset)
-                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(jLabel2))
+                        .addContainerGap())))
         );
         experimentPanelLayout.setVerticalGroup(
             experimentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(experimentPanelLayout.createSequentialGroup()
-                .addContainerGap(20, Short.MAX_VALUE)
-                .addComponent(jLabel1)
+                .addGap(40, 40, 40)
+                .addGroup(experimentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(experimentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(experimentPanelLayout.createSequentialGroup()
@@ -350,20 +353,17 @@ public class PhysicsGUI extends javax.swing.JFrame {
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(velocitySlider, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(18, 18, 18)
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(slopeSlider, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(experimentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel12)
-                            .addComponent(experimentVariableSelector, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(experimentOk)
-                            .addComponent(experimentReset)))
-                    .addGroup(experimentPanelLayout.createSequentialGroup()
-                        .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(experimentImage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(slopeSlider, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(experimentImage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
+                .addGroup(experimentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel12)
+                    .addComponent(experimentVariableSelector, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(experimentOk)
+                    .addComponent(experimentReset))
                 .addGap(8, 8, 8))
         );
 
@@ -376,11 +376,11 @@ public class PhysicsGUI extends javax.swing.JFrame {
         solveImage.setLayout(solveImageLayout);
         solveImageLayout.setHorizontalGroup(
             solveImageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 226, Short.MAX_VALUE)
+            .addGap(0, 304, Short.MAX_VALUE)
         );
         solveImageLayout.setVerticalGroup(
             solveImageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 196, Short.MAX_VALUE)
+            .addGap(0, 280, Short.MAX_VALUE)
         );
 
         jLabel6.setText("Diagram");
@@ -445,68 +445,70 @@ public class PhysicsGUI extends javax.swing.JFrame {
             solvePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(solvePanelLayout.createSequentialGroup()
                 .addGap(39, 39, 39)
+                .addComponent(score)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(solveReset)
+                .addContainerGap())
+            .addGroup(solvePanelLayout.createSequentialGroup()
+                .addGap(18, 18, 18)
                 .addGroup(solvePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(solvePanelLayout.createSequentialGroup()
-                        .addComponent(score)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(solveReset)
-                        .addContainerGap())
+                        .addComponent(jLabel6)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(solvePanelLayout.createSequentialGroup()
+                        .addComponent(solveImage, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
                         .addGroup(solvePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel6)
-                            .addComponent(solveImage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(solvePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(solvePanelLayout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, solvePanelLayout.createSequentialGroup()
                                 .addGroup(solvePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel7)
-                                    .addGroup(solvePanelLayout.createSequentialGroup()
+                                    .addComponent(questionLabel)
+                                    .addComponent(jLabel7))
+                                .addGap(218, 218, 218))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, solvePanelLayout.createSequentialGroup()
+                                .addGroup(solvePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, solvePanelLayout.createSequentialGroup()
                                         .addComponent(jLabel8)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(ansLabel))
-                                    .addComponent(solveAnswerField, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(questionLabel)))
-                            .addGroup(solvePanelLayout.createSequentialGroup()
-                                .addGap(35, 35, 35)
-                                .addComponent(solveOk, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(solveClear, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(showAnswer, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)))
-                        .addGap(34, 34, 34))))
+                                        .addComponent(ansLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, solvePanelLayout.createSequentialGroup()
+                                        .addComponent(solveOk, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(solveClear, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(showAnswer, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(solveAnswerField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(34, 34, 34))))))
         );
         solvePanelLayout.setVerticalGroup(
             solvePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, solvePanelLayout.createSequentialGroup()
-                .addGroup(solvePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(solvePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(solvePanelLayout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(solvePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(solveReset)
-                            .addComponent(score)))
-                    .addGroup(solvePanelLayout.createSequentialGroup()
-                        .addGap(48, 48, 48)
-                        .addGroup(solvePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel7))
+                        .addGap(66, 66, 66)
+                        .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(solvePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(solveImage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(solvePanelLayout.createSequentialGroup()
-                                .addComponent(questionLabel)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(solvePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel8)
-                                    .addComponent(ansLabel))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(solveAnswerField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(solvePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(solveOk)
-                                    .addComponent(solveClear)
-                                    .addComponent(showAnswer))))
-                        .addGap(0, 71, Short.MAX_VALUE)))
-                .addGap(13, 13, 13))
+                        .addComponent(questionLabel)
+                        .addGap(102, 102, 102)
+                        .addGroup(solvePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel8)
+                            .addComponent(ansLabel))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(solveAnswerField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(15, 15, 15)
+                        .addGroup(solvePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(solveOk)
+                            .addComponent(solveClear)
+                            .addComponent(showAnswer)))
+                    .addGroup(solvePanelLayout.createSequentialGroup()
+                        .addContainerGap(44, Short.MAX_VALUE)
+                        .addComponent(jLabel6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(solveImage, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
+                .addGroup(solvePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(score)
+                    .addComponent(solveReset))
+                .addGap(5, 5, 5))
         );
 
         modeTab.addTab("Solve", solvePanel);
@@ -517,14 +519,13 @@ public class PhysicsGUI extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(modeTab)
-                .addContainerGap())
+                .addComponent(modeTab))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(modeTab, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap()
+                .addComponent(modeTab)
                 .addContainerGap())
         );
 
@@ -533,11 +534,23 @@ public class PhysicsGUI extends javax.swing.JFrame {
 
     private void experimentOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_experimentOkActionPerformed
         // TODO add your handling code here:
-	/*
-	experimentImage.paintComponent(Graphiscs g) {
+	Calculator cal = new Calculator(massSlider.getValue(), frictionSlider.getValue(), 
+					slopeSlider.getValue(), velocitySlider.getValue(), 
+					selectedItem);
 	
+	if(cal.getUnknown().equals("Mass")) {
+	    cal.calcNewMass(mass);
 	}
-	*/
+	else if(cal.getUnknown().equals("Friction")) {
+	    cal.calcNewFriction(friction);
+	}
+	else if(cal.getUnknown().equals("Velocity")) {
+	    cal.calcNewVelocity(velocity);
+	}
+	else if(cal.getUnknown().equals("Slope")) {
+	    cal.calcNewSlope(slope);
+	}
+	
     }//GEN-LAST:event_experimentOkActionPerformed
 
     private void solveAnswerFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_solveAnswerFieldActionPerformed
@@ -576,6 +589,7 @@ public class PhysicsGUI extends javax.swing.JFrame {
 
     private void experimentVariableSelectorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_experimentVariableSelectorActionPerformed
         // TODO add your handling code here:
+	selectedItem = experimentVariableSelector.getSelectedItem().toString();
     }//GEN-LAST:event_experimentVariableSelectorActionPerformed
 
     private void resetYesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetYesActionPerformed
