@@ -1,1 +1,2 @@
-question 1
+Given a 5kg block on a surface with coefficient of friction 0.1, raised by 20°, at what speed will the block slide down?
+Exdee
