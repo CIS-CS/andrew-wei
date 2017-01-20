@@ -1,11 +1,6 @@
 
 package physicsapp;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.util.Scanner;
 import java.io.File;
 import java.io.FileNotFoundException;
 import physicsapp.Calculator;
@@ -13,6 +8,7 @@ import physicsapp.Calculator;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import java.util.*;
 
 /**
  *
@@ -21,21 +17,20 @@ import javax.swing.*;
 public class PhysicsGUI extends javax.swing.JFrame {
     
     //Solve fields
+    private int questionNo = 0;
     private String question = "";
     private String response = "";
     private String answer = "";
     private int scoreCounter = 0;
     private int totalScore = 0;
+    private boolean answerShown = false;
     
     //Experiment fields
-    private double mass = 0.0;
-    private double friction = 0.0;
-    private double slope = 0.0;
-    private double velocity = 0.0;
-    private String selectedItem = "";
-    AnimatedJPanel experimentImage = new AnimatedJPanel();
-    private Graphics g = experimentImage.getGraphics();
-    
+    private int mass;
+    private int friction;
+    private int slope;
+    private String selectedItem;
+        
     
     /**
      * Creates new form PhysicsGUI
@@ -46,10 +41,26 @@ public class PhysicsGUI extends javax.swing.JFrame {
 	setTitle("Physics Learning App");
 	setDefaultCloseOperation(EXIT_ON_CLOSE);
 	
-	experimentImage.setSize(328,286);
-	experimentImage.setLocation(15, 62);
-	experimentImage.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-	experimentPanel.add(experimentImage);
+	setSlopeSliderLabels();
+	setFrictionSliderLabels();
+	setMassSliderLabels();
+	
+	experimentImage.inputValues(slope, friction, mass);
+	
+	//Getting answer for first question generated in initComponents()
+	try {
+	    Scanner input = new Scanner(new File("answers.txt"));	    
+	    
+	    input.useDelimiter("#");
+        
+	    for(int x = 0; x < questionNo && input.hasNext() == true; x++) {
+		answer = input.next();
+	    }
+	}
+	catch (FileNotFoundException e) {
+	    System.err.format("File not found.");
+	}
+	
     }
 
     /**
@@ -72,55 +83,83 @@ public class PhysicsGUI extends javax.swing.JFrame {
         modeTab = new javax.swing.JTabbedPane();
         experimentPanel = new javax.swing.JPanel();
         frictionSlider = new javax.swing.JSlider();
-        velocitySlider = new javax.swing.JSlider();
-        slopeSlider = new javax.swing.JSlider();
         jLabel1 = new javax.swing.JLabel();
+        slopeSlider = new javax.swing.JSlider();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         experimentOk = new javax.swing.JButton();
-        experimentReset = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
-        experimentVariableSelector = new javax.swing.JComboBox();
         massSlider = new javax.swing.JSlider();
+        experimentImage = new physicsapp.AnimatedJPanel();
+        experimentReset = new javax.swing.JButton();
         solvePanel = new javax.swing.JPanel();
         solveImage = new javax.swing.JPanel(){
+
+            int triangleX1 = 111;
+            int triangleX2 = 211;
+            int triangleX3 = 211;
+
+            int triangleY1 = 271;
+            int triangleY2 = 271;
+            int triangleY3 = 171;
+
+            // +/-20 is for cosmetic purposes
+            int squareX1 = (triangleX3 - 28) - 20;
+            int squareX2 = (triangleX3 - 28 - 28) - 20;
+            int squareX3 = (triangleX3 - 28) - 20;
+            int squareX4 = (triangleX3) - 20;
+
+            int squareY1 = (triangleY3 - 28) + 20;
+            int squareY2 = (triangleY3) + 20;
+            int squareY3 = (triangleY3 - 28 + 28 + 28) + 20;
+            int squareY4 = (triangleY3) + 20;
 
             @Override
             public void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                Graphics2D g2d = (Graphics2D)g;
 
-                //g2d.rotate(Math.toRadians(-45));
-                Color blue = new Color(2003199);
-                Color green = new Color(3329330);
+                Color blue = new Color(30, 144, 255);
+                Color green = new Color(50, 205, 50);
+                Color brown = new Color(160, 82, 45);
 
                 g.setColor(blue);
-                g.fillRect(171, 131, 40, 40);
+                g.fillPolygon(new int[] {squareX1, squareX2, squareX3, squareX4},
+                    new int[] {squareY1, squareY2, squareY3, squareY4}, 4);
                 g.setColor(Color.BLACK);
-                g.drawRect(171, 131, 40, 40);
+                g.drawPolygon(new int[] {squareX1, squareX2, squareX3, squareX4},
+                    new int[] {squareY1, squareY2, squareY3, squareY4}, 4);
 
-                //g2d.rotate(Math.toRadians(45));
                 g.setColor(green);
-                g.fillPolygon(new int[] {111, 211, 211}, new int[] {271, 271, 171}, 3);
+                g.fillPolygon(new int[] {triangleX1, triangleX2, triangleX3},
+                    new int[] {triangleY1, triangleY2, triangleY3}, 3);
                 g.setColor(Color.BLACK);
-                g.drawPolygon(new int[] {111, 211, 211}, new int[] {271, 271, 171}, 3);
+                g.drawPolygon(new int[] {triangleX1, triangleX2, triangleX3},
+                    new int[] {triangleY1, triangleY2, triangleY3}, 3);
+
+                //Draw floor
+                g.setColor(brown);
+                g.fillRect(0, 271, 325, 18);
+                g.setColor(Color.BLACK);
+                g.drawLine(0, 271, 325, 271);
+
             }
         };
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        solveAnswerField = new javax.swing.JTextField();
+        answerField = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         solveOk = new javax.swing.JButton();
         solveClear = new javax.swing.JButton();
         score = new javax.swing.JLabel();
         solveReset = new javax.swing.JButton();
         showAnswer = new javax.swing.JButton();
-        ansLabel = new javax.swing.JLabel();
+        answerLabel = new javax.swing.JLabel();
         questionLabel = new org.jdesktop.swingx.JXLabel();
 
+        resetConfirm.setTitle("Warning");
+        resetConfirm.setAlwaysOnTop(true);
         resetConfirm.setLocation(new java.awt.Point(477, 350));
+        resetConfirm.setModal(true);
         resetConfirm.setResizable(false);
 
         jLabel10.setText("Are you sure you want to reset your score?");
@@ -167,7 +206,10 @@ public class PhysicsGUI extends javax.swing.JFrame {
                 .addGap(16, 16, 16))
         );
 
+        showAnsConfirm.setTitle("Warning");
+        showAnsConfirm.setAlwaysOnTop(true);
         showAnsConfirm.setLocation(new java.awt.Point(477, 350));
+        showAnsConfirm.setModal(true);
         showAnsConfirm.setResizable(false);
 
         jLabel13.setText("Are you sure you want to show the answer?");
@@ -219,28 +261,32 @@ public class PhysicsGUI extends javax.swing.JFrame {
         setResizable(false);
 
         frictionSlider.setMajorTickSpacing(1);
-        frictionSlider.setMaximum(2);
+        frictionSlider.setMaximum(4);
         frictionSlider.setPaintLabels(true);
         frictionSlider.setPaintTicks(true);
+        frictionSlider.setSnapToTicks(true);
         frictionSlider.setValue(0);
+        frictionSlider.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                frictionSliderStateChanged(evt);
+            }
+        });
 
-        velocitySlider.setMajorTickSpacing(1);
-        velocitySlider.setMaximum(10);
-        velocitySlider.setPaintLabels(true);
-        velocitySlider.setPaintTicks(true);
-        velocitySlider.setValue(5);
+        jLabel1.setText("Mass (kg)");
 
         slopeSlider.setMajorTickSpacing(1);
         slopeSlider.setMaximum(5);
         slopeSlider.setPaintLabels(true);
         slopeSlider.setPaintTicks(true);
-        slopeSlider.setValue(1);
-
-        jLabel1.setText("Mass (kg)");
+        slopeSlider.setSnapToTicks(true);
+        slopeSlider.setValue(3);
+        slopeSlider.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                slopeSliderStateChanged(evt);
+            }
+        });
 
         jLabel2.setText("Friction");
-
-        jLabel3.setText("Velocity (m/s)");
 
         jLabel4.setText("Slope (y/x)");
 
@@ -251,6 +297,34 @@ public class PhysicsGUI extends javax.swing.JFrame {
             }
         });
 
+        jLabel5.setText("Diagram");
+
+        massSlider.setMajorTickSpacing(1);
+        massSlider.setMaximum(10);
+        massSlider.setPaintLabels(true);
+        massSlider.setPaintTicks(true);
+        massSlider.setSnapToTicks(true);
+        massSlider.setValue(5);
+        massSlider.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                massSliderStateChanged(evt);
+            }
+        });
+
+        experimentImage.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        experimentImage.setPreferredSize(new java.awt.Dimension(328, 286));
+
+        javax.swing.GroupLayout experimentImageLayout = new javax.swing.GroupLayout(experimentImage);
+        experimentImage.setLayout(experimentImageLayout);
+        experimentImageLayout.setHorizontalGroup(
+            experimentImageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 324, Short.MAX_VALUE)
+        );
+        experimentImageLayout.setVerticalGroup(
+            experimentImageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 286, Short.MAX_VALUE)
+        );
+
         experimentReset.setText("Reset");
         experimentReset.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -258,107 +332,86 @@ public class PhysicsGUI extends javax.swing.JFrame {
             }
         });
 
-        jLabel5.setText("Diagram");
-
-        jLabel12.setText("Select a variable to vary:");
-
-        experimentVariableSelector.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Mass", "Friction", "Velocity", "Slope" }));
-        experimentVariableSelector.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                experimentVariableSelectorActionPerformed(evt);
-            }
-        });
-
-        massSlider.setMajorTickSpacing(1);
-        massSlider.setMaximum(10);
-        massSlider.setPaintLabels(true);
-        massSlider.setPaintTicks(true);
-        massSlider.setValue(5);
-
         javax.swing.GroupLayout experimentPanelLayout = new javax.swing.GroupLayout(experimentPanel);
         experimentPanel.setLayout(experimentPanelLayout);
         experimentPanelLayout.setHorizontalGroup(
             experimentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(experimentPanelLayout.createSequentialGroup()
-                .addGap(15, 15, 15)
+                .addContainerGap(18, Short.MAX_VALUE)
                 .addGroup(experimentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel5)
                     .addGroup(experimentPanelLayout.createSequentialGroup()
-                        .addComponent(jLabel12)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(experimentVariableSelector, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(101, 101, 101)
-                        .addComponent(experimentOk)
+                        .addComponent(experimentImage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(experimentReset)
-                        .addGap(0, 116, Short.MAX_VALUE))
-                    .addGroup(experimentPanelLayout.createSequentialGroup()
-                        .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(experimentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(frictionSlider, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(massSlider, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel1)
                             .addComponent(jLabel4)
-                            .addGroup(experimentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(massSlider, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
-                                .addComponent(frictionSlider, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(velocitySlider, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(slopeSlider, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel2))
-                        .addContainerGap())))
+                            .addComponent(slopeSlider, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(experimentPanelLayout.createSequentialGroup()
+                                .addGap(33, 33, 33)
+                                .addComponent(experimentOk)
+                                .addGap(60, 60, 60)
+                                .addComponent(experimentReset)))))
+                .addContainerGap(12, Short.MAX_VALUE))
         );
         experimentPanelLayout.setVerticalGroup(
             experimentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(experimentPanelLayout.createSequentialGroup()
-                .addGap(40, 40, 40)
-                .addGroup(experimentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel5))
+                .addGap(50, 50, 50)
+                .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(massSlider, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(frictionSlider, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(velocitySlider, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(slopeSlider, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 34, Short.MAX_VALUE)
-                .addGroup(experimentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel12)
-                    .addComponent(experimentVariableSelector, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(experimentOk)
-                    .addComponent(experimentReset))
-                .addGap(8, 8, 8))
+                .addGroup(experimentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(experimentPanelLayout.createSequentialGroup()
+                        .addComponent(experimentImage, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(40, Short.MAX_VALUE))
+                    .addGroup(experimentPanelLayout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(massSlider, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(42, 42, 42)
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(frictionSlider, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(experimentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, experimentPanelLayout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(slopeSlider, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(67, 67, 67))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, experimentPanelLayout.createSequentialGroup()
+                                .addGroup(experimentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(experimentOk)
+                                    .addComponent(experimentReset))
+                                .addContainerGap())))))
         );
 
         modeTab.addTab("Experiment", experimentPanel);
 
         solveImage.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        solveImage.setPreferredSize(new java.awt.Dimension(230, 200));
+        solveImage.setPreferredSize(new java.awt.Dimension(228, 200));
 
         javax.swing.GroupLayout solveImageLayout = new javax.swing.GroupLayout(solveImage);
         solveImage.setLayout(solveImageLayout);
         solveImageLayout.setHorizontalGroup(
             solveImageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 325, Short.MAX_VALUE)
+            .addGap(0, 324, Short.MAX_VALUE)
         );
         solveImageLayout.setVerticalGroup(
             solveImageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 280, Short.MAX_VALUE)
+            .addGap(0, 286, Short.MAX_VALUE)
         );
 
         jLabel6.setText("Diagram");
 
         jLabel7.setText("Question:");
 
-        solveAnswerField.addActionListener(new java.awt.event.ActionListener() {
+        answerField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                solveAnswerFieldActionPerformed(evt);
+                answerFieldActionPerformed(evt);
             }
         });
 
@@ -394,12 +447,17 @@ public class PhysicsGUI extends javax.swing.JFrame {
             }
         });
 
-        ansLabel.setText("        ");
+        answerLabel.setText("        ");
 
         try {
-            Scanner input = new Scanner(new File("questions_answers.txt"));
+            Scanner input = new Scanner(new File("questions.txt"));
+            input.useDelimiter("#");
 
-            String question = input.nextLine();
+            questionNo = (int)(Math.random() * 10 + 1);
+
+            for(int x = 0; x < questionNo && input.hasNext() == true; x++) {
+                question = input.next();
+            }
             questionLabel.setLineWrap(true);
             questionLabel.setMaxLineSpan(268);
             questionLabel.setText(question);
@@ -413,67 +471,65 @@ public class PhysicsGUI extends javax.swing.JFrame {
         solvePanelLayout.setHorizontalGroup(
             solvePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(solvePanelLayout.createSequentialGroup()
-                .addGap(39, 39, 39)
-                .addComponent(score)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(solveReset)
-                .addContainerGap())
-            .addGroup(solvePanelLayout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addGroup(solvePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(solvePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(solvePanelLayout.createSequentialGroup()
-                        .addComponent(jLabel6)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(solvePanelLayout.createSequentialGroup()
-                        .addComponent(solveImage, javax.swing.GroupLayout.DEFAULT_SIZE, 329, Short.MAX_VALUE)
+                        .addGap(39, 39, 39)
+                        .addComponent(score, javax.swing.GroupLayout.PREFERRED_SIZE, 307, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, solvePanelLayout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addGroup(solvePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, solvePanelLayout.createSequentialGroup()
-                                .addComponent(jLabel7)
-                                .addGap(241, 241, 241))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, solvePanelLayout.createSequentialGroup()
-                                .addGroup(solvePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(solveAnswerField, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, solvePanelLayout.createSequentialGroup()
-                                        .addComponent(jLabel8)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(ansLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, solvePanelLayout.createSequentialGroup()
-                                        .addComponent(solveOk, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(solveClear, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(showAnswer, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(questionLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGap(34, 34, 34))))))
+                            .addComponent(jLabel6)
+                            .addComponent(solveImage, javax.swing.GroupLayout.PREFERRED_SIZE, 328, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGroup(solvePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(solvePanelLayout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(solvePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(solvePanelLayout.createSequentialGroup()
+                                .addComponent(jLabel8)
+                                .addGap(16, 16, 16)
+                                .addComponent(answerLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(questionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel7)
+                            .addGroup(solvePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(solvePanelLayout.createSequentialGroup()
+                                    .addComponent(solveOk, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(solveClear, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(showAnswer, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(answerField, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(25, 25, Short.MAX_VALUE))
+                    .addGroup(solvePanelLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(solveReset)
+                        .addContainerGap())))
         );
         solvePanelLayout.setVerticalGroup(
             solvePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, solvePanelLayout.createSequentialGroup()
+                .addContainerGap(49, Short.MAX_VALUE)
+                .addComponent(jLabel6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(solvePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(solvePanelLayout.createSequentialGroup()
-                        .addContainerGap(44, Short.MAX_VALUE)
-                        .addComponent(jLabel6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(solveImage, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(solvePanelLayout.createSequentialGroup()
-                        .addGap(66, 66, 66)
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(questionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 104, Short.MAX_VALUE)
                         .addGroup(solvePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel8)
-                            .addComponent(ansLabel))
+                            .addComponent(answerLabel))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(solveAnswerField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(answerField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(solvePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(solveOk)
                             .addComponent(solveClear)
                             .addComponent(showAnswer))
-                        .addGap(52, 52, 52)))
-                .addGap(18, 18, 18)
+                        .addGap(70, 70, 70))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, solvePanelLayout.createSequentialGroup()
+                        .addComponent(solveImage, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                 .addGroup(solvePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(score)
                     .addComponent(solveReset))
@@ -502,110 +558,269 @@ public class PhysicsGUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void experimentOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_experimentOkActionPerformed
-        // TODO add your handling code here:
-	Calculator cal = new Calculator(massSlider.getValue(), frictionSlider.getValue(), 
-					slopeSlider.getValue(), velocitySlider.getValue(), 
-					selectedItem);
+
+	slope = slopeSlider.getValue();
+	friction = frictionSlider.getValue();
+	mass = massSlider.getValue();
 	
-	switch (cal.getUnknown()) {
-	    case "Mass":
-		cal.calcNewMass(mass);
-		break;
-	    case "Friction":
-		cal.calcNewFriction(friction);
-		break;
-	    case "Velocity":
-		cal.calcNewVelocity(velocity);
-		break;
-	    case "Slope":
-		cal.calcNewSlope(slope);
-		break;
-	}
+	experimentImage.inputValues(slope, friction, mass);
+	
+	experimentImage.slide();
 	
     }//GEN-LAST:event_experimentOkActionPerformed
 
-    private void solveAnswerFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_solveAnswerFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_solveAnswerFieldActionPerformed
+    private void answerFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_answerFieldActionPerformed
+
+    }//GEN-LAST:event_answerFieldActionPerformed
 
     private void solveOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_solveOkActionPerformed
-        // TODO add your handling code here:
-	ansLabel.setText("");
+
+	if(answerField.getText().equals(answer) && answerShown == false) {
+	    answerField.setText("");
+	    answerLabel.setText("");
+	    
+	    scoreCounter++;
+	    newQuestion();
+	    questionLabel.setText(question);
+	}
+	else if(answerField.getText().equals(answer)) {
+	    answerField.setText("");
+	    answerLabel.setText("");
+	    
+	    newQuestion();
+	    questionLabel.setText(question);
+	    answerShown = false;
+	}
+	totalScore++;
+	
+	score.setText("Score: " + scoreCounter + "/" + totalScore);
     }//GEN-LAST:event_solveOkActionPerformed
 
     private void solveClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_solveClearActionPerformed
-        // TODO add your handling code here:
-	solveAnswerField.setText("");
+
+	answerField.setText("");
 	
     }//GEN-LAST:event_solveClearActionPerformed
 
     private void showAnswerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showAnswerActionPerformed
-        // TODO add your handling code here:
+
 	showAnsConfirm.setSize(new Dimension(325,125));
 	showAnsConfirm.setVisible(true);
+	
+	answerShown = true;
     }//GEN-LAST:event_showAnswerActionPerformed
 
     private void solveResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_solveResetActionPerformed
-        // TODO add your handling code here:
+
 	resetConfirm.setSize(new Dimension(325,125));
 	resetConfirm.setVisible(true);
 	
     }//GEN-LAST:event_solveResetActionPerformed
-
-    private void experimentResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_experimentResetActionPerformed
-        // TODO add your handling code here:
-	massSlider.setValue(5);
-	frictionSlider.setValue(0);
-	velocitySlider.setValue(5);
-	slopeSlider.setValue(1);
-	
-	experimentImage.clear();
-    }//GEN-LAST:event_experimentResetActionPerformed
-
-    private void experimentVariableSelectorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_experimentVariableSelectorActionPerformed
-        // TODO add your handling code here:
-	selectedItem = experimentVariableSelector.getSelectedItem().toString();
-    }//GEN-LAST:event_experimentVariableSelectorActionPerformed
-
+ 
     private void resetYesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetYesActionPerformed
-        // TODO add your handling code here:
+
 	resetConfirm.setVisible(false);
-	    
+	
 	scoreCounter = 0;
 	totalScore = 0;
+	
+	newQuestion();
+	questionLabel.setText(question);
 	
 	score.setText("Score: " + scoreCounter + "/" + totalScore);
     }//GEN-LAST:event_resetYesActionPerformed
 
     private void resetNoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetNoActionPerformed
-        // TODO add your handling code here:
+
 	resetConfirm.setVisible(false);
     }//GEN-LAST:event_resetNoActionPerformed
 
     private void showAnsYesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showAnsYesActionPerformed
-        // TODO add your handling code here:
+
+	showAnsConfirm.setVisible(false);
+
+	answerLabel.setText(answer);
+    }//GEN-LAST:event_showAnsYesActionPerformed
+
+    private void showAnsNoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showAnsNoActionPerformed
+
 	showAnsConfirm.setVisible(false);
 	
-	try {
-	    Scanner input = new Scanner(new File("questions_answers.txt"));
-			
-	    String answer = input.nextLine();
-	    ansLabel.setText(answer);
+    }//GEN-LAST:event_showAnsNoActionPerformed
 
+    private void experimentResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_experimentResetActionPerformed
+        
+	massSlider.setValue(5);
+	frictionSlider.setValue(0);
+	slopeSlider.setValue(3);
+	
+	experimentImage.resetAll();
+    }//GEN-LAST:event_experimentResetActionPerformed
+
+    private void slopeSliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_slopeSliderStateChanged
+        
+	slope = slopeSlider.getValue();
+	friction = frictionSlider.getValue();
+	
+	experimentImage.inputValues(slope, friction, mass);
+		
+	if(slope == 0) {
+	    experimentImage.adjustTriangle0();
+	}
+	else if(slope == 1) {
+	    experimentImage.adjustTriangleHalf();
+	}
+	else if(slope == 2) {
+	    experimentImage.adjustTriangle2over3();
+	}
+	else if(slope == 3) {
+	    experimentImage.adjustTriangle1();
+	}
+	else if(slope == 4) {
+	    experimentImage.adjustTriangle3over2();
+	}
+	else if(slope == 5) {
+	    experimentImage.adjustTriangle2();
+	}
+    }//GEN-LAST:event_slopeSliderStateChanged
+
+    private void frictionSliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_frictionSliderStateChanged
+	
+	slope = slopeSlider.getValue();
+	friction = frictionSlider.getValue();
+	
+	experimentImage.inputValues(slope, friction, mass);
+		
+	if(slope == 0) {
+	    experimentImage.adjustTriangle0();
+	}
+	else if(slope == 1) {
+	    experimentImage.adjustTriangleHalf();
+	}
+	else if(slope == 2) {
+	    experimentImage.adjustTriangle2over3();
+	}
+	else if(slope == 3) {
+	    experimentImage.adjustTriangle1();
+	}
+	else if(slope == 4) {
+	    experimentImage.adjustTriangle3over2();
+	}
+	else if(slope == 5) {
+	    experimentImage.adjustTriangle2();
+	}
+	
+    }//GEN-LAST:event_frictionSliderStateChanged
+
+    private void massSliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_massSliderStateChanged
+        
+	slope = slopeSlider.getValue();
+	friction = frictionSlider.getValue();
+	
+	experimentImage.inputValues(slope, friction, mass);
+		
+	if(slope == 0) {
+	    experimentImage.adjustTriangle0();
+	}
+	else if(slope == 1) {
+	    experimentImage.adjustTriangleHalf();
+	}
+	else if(slope == 2) {
+	    experimentImage.adjustTriangle2over3();
+	}
+	else if(slope == 3) {
+	    experimentImage.adjustTriangle1();
+	}
+	else if(slope == 4) {
+	    experimentImage.adjustTriangle3over2();
+	}
+	else if(slope == 5) {
+	    experimentImage.adjustTriangle2();
+	}
+    }//GEN-LAST:event_massSliderStateChanged
+    
+    public void newQuestion() {
+	try {
+	    Scanner input = new Scanner(new File("questions.txt"));
+	    input.useDelimiter("#");
+    
+	    questionNo = (int)(Math.random() * 10 + 1);
+    
+	    for(int x = 0; x < questionNo && input.hasNext() == true; x++) {
+		question = input.next();
+	    }
 	}
 	catch (FileNotFoundException e) {
 	    System.err.format("File not found.");
 	}
 	
-    }//GEN-LAST:event_showAnsYesActionPerformed
-
-    private void showAnsNoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showAnsNoActionPerformed
-        // TODO add your handling code here:
-	showAnsConfirm.setVisible(false);
-
-    }//GEN-LAST:event_showAnsNoActionPerformed
-
+	try {
+	    Scanner input = new Scanner(new File("answers.txt"));	    
+	    
+	    input.useDelimiter("#");
+        
+	    for(int x = 0; x < questionNo && input.hasNext() == true; x++) {
+		answer = input.next();
+	    }
+	}
+	catch (FileNotFoundException e) {
+	    System.err.format("File not found.");
+	}
+	
+    }
     
+    public double getSlope() {
+	return slope;
+    }
+    
+    public void setSlopeSliderLabels() {
+	
+	Hashtable slopeLabels = new Hashtable();
+	
+	slopeLabels.put(0, new JLabel("0"));
+	slopeLabels.put(1, new JLabel("0.5"));
+	slopeLabels.put(2, new JLabel("0.67"));
+	slopeLabels.put(3, new JLabel("1"));
+	slopeLabels.put(4, new JLabel("1.5"));
+	slopeLabels.put(5, new JLabel("2"));
+	
+	slopeSlider.setLabelTable(slopeLabels);
+    }
+    
+    public void setFrictionSliderLabels() {
+	
+	Hashtable frictionLabels = new Hashtable();
+	
+	frictionLabels.put(0, new JLabel("0"));
+	frictionLabels.put(1, new JLabel("0.25"));
+	frictionLabels.put(2, new JLabel("0.5"));
+	frictionLabels.put(3, new JLabel("0.75"));
+	frictionLabels.put(4, new JLabel("1"));
+
+	frictionSlider.setLabelTable(frictionLabels);
+    }
+    
+    public void setMassSliderLabels() {
+	
+	Hashtable massLabels = new Hashtable();
+	
+	massLabels.put(0, new JLabel("0"));
+	massLabels.put(1, new JLabel("1"));
+	massLabels.put(2, new JLabel("2"));
+	massLabels.put(3, new JLabel("3"));
+	massLabels.put(4, new JLabel("4"));
+	massLabels.put(5, new JLabel("5"));
+	massLabels.put(6, new JLabel("6"));
+	massLabels.put(7, new JLabel("7"));
+	massLabels.put(8, new JLabel("8"));
+	massLabels.put(9, new JLabel("9"));
+	massLabels.put(10, new JLabel("10"));
+
+	massSlider.setLabelTable(massLabels);
+    }
+    
+    
+
     
     /**
      * @param args the command line arguments
@@ -643,18 +858,17 @@ public class PhysicsGUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel ansLabel;
+    private javax.swing.JTextField answerField;
+    private javax.swing.JLabel answerLabel;
+    private physicsapp.AnimatedJPanel experimentImage;
     private javax.swing.JButton experimentOk;
     private javax.swing.JPanel experimentPanel;
     private javax.swing.JButton experimentReset;
-    private javax.swing.JComboBox experimentVariableSelector;
     private javax.swing.JSlider frictionSlider;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -672,12 +886,10 @@ public class PhysicsGUI extends javax.swing.JFrame {
     private javax.swing.JButton showAnsYes;
     private javax.swing.JButton showAnswer;
     private javax.swing.JSlider slopeSlider;
-    private javax.swing.JTextField solveAnswerField;
     private javax.swing.JButton solveClear;
     private javax.swing.JPanel solveImage;
     private javax.swing.JButton solveOk;
     private javax.swing.JPanel solvePanel;
     private javax.swing.JButton solveReset;
-    private javax.swing.JSlider velocitySlider;
     // End of variables declaration//GEN-END:variables
 }
